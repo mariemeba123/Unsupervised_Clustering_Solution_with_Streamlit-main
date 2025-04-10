@@ -1,7 +1,7 @@
 # Customer_Segmentation_application
 This app has been built using Streamlit and deployed with Streamlit community cloud
 
-[Visit the app here](https://loan-application-app.streamlit.app/)
+[Visit the app here](https://unsupervisedclusteringsolutionwithapp-main-ebrawwgcgauuibap36s.streamlit.app/)
 
 password - streamlit
 
@@ -45,8 +45,8 @@ If you want to run the application locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/credit_eligibility_application.git
-   cd credit_eligibility_application
+   git clone https://github.com/mariemeba123/Unsupervised_Clustering_Solution_with_Streamlit-main.git
+   cd Unsupervised_Clustering_Solution_with_Streamlit-main
 
 2. Create and activate a virtual environment:
    ```bash
