@@ -137,14 +137,14 @@ if submitted:
     st.markdown(f'<div class="result-text">You belong to <strong>Cluster {cluster_pred}</strong></div>', unsafe_allow_html=True)
     
     # Display silhouette plot
-    st.image("silhouette.png", caption="Silhouette Score for Cluster Quality", use_column_width=True) 
+    st.image("silhouette.png", caption="Silhouette Score for Cluster Quality", use_container_width=True) 
 
     # Add the user point to the original dataframe for visualization
     df["Cluster"] = kmeans.labels_
     cluster(df,income,spending)
     # Additional cluster image visualization
     st.markdown('<div class="image-container">', unsafe_allow_html=True)
-    st.image("cluster.png", caption="Cluster Visualization", use_column_width=True) 
+    st.image("cluster.png", caption="Cluster Visualization", use_container_width=True) 
     st.markdown('</div>', unsafe_allow_html=True)
 
 # --- Feature explanation ---
