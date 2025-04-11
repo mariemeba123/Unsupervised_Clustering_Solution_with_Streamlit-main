@@ -28,13 +28,14 @@ def plot_silhouette(wss):
 
 def cluster(df,income,spending):
     fig, ax = plt.subplots(figsize=(8, 5))
-    sns.scatterplot(data=df, x="Annual_Income", y="Spending_Score", hue=df["Cluster"], palette="viridis", s=100)
-    plt.scatter(income, spending, color="red", s=200, edgecolors="black", label="User")
+    sns.scatterplot(data=df, x="Annual_Income", y="Spending_Score", hue=df["Cluster_Label"], palette="viridis", s=100)
+    plt.scatter(income, spending, color="red", s=200, edgecolors="black", label="You")
     plt.xlabel("Annual Income (k$)")
     plt.ylabel("Spending Score")
     plt.title("Customer Segmentation")
-    plt.legend()
-    plt.savefig("cluster.png")
+    # Adjust the legend to make it smaller and place it outside
+    plt.legend(title="Cluster", bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10, borderpad=1)
+    plt.savefig("cluster.png", bbox_inches="tight")
    
 
 # def plot_confusion_matrix(y_true, y_pred, classes, normalize=False, title='Confusion Matrix'):

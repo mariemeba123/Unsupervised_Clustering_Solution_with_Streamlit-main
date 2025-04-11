@@ -134,17 +134,35 @@ if submitted:
     
     # Predict the cluster
     cluster_pred = kmeans.predict(user_data)[0]
-    st.markdown(f'<div class="result-text">You belong to <strong>Cluster {cluster_pred}</strong></div>', unsafe_allow_html=True)
     
+        # Define human-readable labels for each cluster
+    cluster_labels = {
+        0: "a High-Value Customer",
+        1: "an Average Spender",
+        2: "a Budget-Conscious Spender",
+        3: "a Low-Spending Wealthy Customer",
+        4: "a Low-Value Customer",
+        5: "a Balanced Customer",
+        6: "a Young High-Spender",
+        7: "a Wealthy Minimalist"
+    }
+
+    # Display user-friendly result
+    label = cluster_labels.get(cluster_pred, "a Customer")
+    st.markdown(f'<div class="result-text">You are categorized as <strong>{label}</strong>.</div>', unsafe_allow_html=True)
+
     # Display silhouette plot
-    st.image("silhouette.png", caption="Silhouette Score for Cluster Quality", use_container_width=True) 
+    st.image("silhouette.png", caption="Silhouette Score for Cluster Quality") 
 
     # Add the user point to the original dataframe for visualization
+    
     df["Cluster"] = kmeans.labels_
+     # Map the cluster numbers to human-readable labels
+    df['Cluster_Label'] = df['Cluster'].map(cluster_labels)
     cluster(df,income,spending)
     # Additional cluster image visualization
     st.markdown('<div class="image-container">', unsafe_allow_html=True)
-    st.image("cluster.png", caption="Cluster Visualization", use_container_width=True) 
+    st.image("cluster.png", caption="Cluster Visualization") 
     st.markdown('</div>', unsafe_allow_html=True)
 
 # --- Feature explanation ---
