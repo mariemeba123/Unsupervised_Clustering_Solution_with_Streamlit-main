@@ -1,7 +1,7 @@
 # Customer_Segmentation_application
 This app has been built using Streamlit and deployed with Streamlit community cloud
 
-[Visit the app here](https://unsupervisedclusteringsolutionwithapp-main-ebrawwgcgauuibap36s.streamlit.app/)
+[Visit the app here](https://customer-segmentation-predictor.streamlit.app/)
 
 password - streamlit
 

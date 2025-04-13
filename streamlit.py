@@ -109,9 +109,16 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-# Load the K-Means model
-with open("models/Kmodel.pkl", "rb") as model_file:
-    kmeans = pickle.load(model_file)
+try:
+    # Load the K-Means model
+    with open("models/Kmodel.pkl", "rb") as model_file:
+        kmeans = pickle.load(model_file)
+except FileNotFoundError:
+    st.error("Model file not found. Please ensure 'models/Kmodel.pkl' exists.")
+    st.stop()
+except Exception as e:
+    st.error(f"An error occurred while loading the model: {e}")
+    st.stop()
 
 # Load data for visualization
 df = pd.read_csv("data/raw/mall_customers.csv")
@@ -129,41 +136,49 @@ with st.form("prediction_form", clear_on_submit=True):
 
 # Prediction using the model
 if submitted:
-    # Create user data frame
-    user_data = pd.DataFrame([[age, income, spending]], columns=["Age", "Annual_Income", "Spending_Score"])
-    
-    # Predict the cluster
-    cluster_pred = kmeans.predict(user_data)[0]
-    
-        # Define human-readable labels for each cluster
-    cluster_labels = {
-        0: "a High-Value Customer",
-        1: "an Average Spender",
-        2: "a Budget-Conscious Spender",
-        3: "a Low-Spending Wealthy Customer",
-        4: "a Low-Value Customer",
-        5: "a Balanced Customer",
-        6: "a Young High-Spender",
-        7: "a Wealthy Minimalist"
-    }
+    try:
+        # Create user data frame
+        user_data = pd.DataFrame([[age, income, spending]], columns=["Age", "Annual_Income", "Spending_Score"])
+        
+        # Predict the cluster
+        cluster_pred = kmeans.predict(user_data)[0]
+        
+            # Define human-readable labels for each cluster
+        cluster_labels = {
+            0: "a High-Value Customer",
+            1: "an Average Spender",
+            2: "a Budget-Conscious Spender",
+            3: "a Low-Spending Wealthy Customer",
+            4: "a Low-Value Customer",
+            5: "a Balanced Customer",
+            6: "a Young High-Spender",
+            7: "a Wealthy Minimalist"
+        }
 
-    # Display user-friendly result
-    label = cluster_labels.get(cluster_pred, "a Customer")
-    st.markdown(f'<div class="result-text">You are categorized as <strong>{label}</strong>.</div>', unsafe_allow_html=True)
+        # Display user-friendly result
+        label = cluster_labels.get(cluster_pred, "a Customer")
+        st.markdown(f'<div class="result-text">You are categorized as <strong>{label}</strong>.</div>', unsafe_allow_html=True)
+        try:
+            # Display silhouette plot
+            st.image("silhouette.png", caption="Silhouette Score for Cluster Quality") 
+        except FileNotFoundError:
+            st.warning("Silhouette image not found.")
 
-    # Display silhouette plot
-    st.image("silhouette.png", caption="Silhouette Score for Cluster Quality") 
-
-    # Add the user point to the original dataframe for visualization
-    
-    df["Cluster"] = kmeans.labels_
-     # Map the cluster numbers to human-readable labels
-    df['Cluster_Label'] = df['Cluster'].map(cluster_labels)
-    cluster(df,income,spending)
-    # Additional cluster image visualization
-    st.markdown('<div class="image-container">', unsafe_allow_html=True)
-    st.image("cluster.png", caption="Cluster Visualization") 
-    st.markdown('</div>', unsafe_allow_html=True)
+        # Add the user point to the original dataframe for visualization
+        
+        df["Cluster"] = kmeans.labels_
+        # Map the cluster numbers to human-readable labels
+        df['Cluster_Label'] = df['Cluster'].map(cluster_labels)
+        cluster(df,income,spending)
+        # Additional cluster image visualization
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
+        try:
+            st.image("cluster.png", caption="Cluster Visualization") 
+        except FileNotFoundError:
+            st.warning("Cluster image not found.")
+        st.markdown('</div>', unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"An error occurred during prediction: {e}")
 
 # --- Feature explanation ---
 st.markdown(
